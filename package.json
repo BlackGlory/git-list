@@ -1,7 +1,7 @@
 {
   "name": "git-list",
   "version": "0.1.0",
-  "description": "",
+  "description": "A tool for batch operation of git repositories.",
   "keywords": [],
   "bin": {
     "git-list": "lib/cli.js"

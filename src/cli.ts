@@ -12,18 +12,22 @@ program
 
 program
   .command('clone')
+  .description('execute `git clone` on all of repositories in the list')
   .action(() => clone())
 
 program
-  .command('pull')
+  .command('pull',)
+  .description('execute `git pull` on all of repositories in the list')
   .action(() => pull())
 
 program
   .command('push')
+  .description('execute `git push` on all of repositories in the list')
   .action(() => push())
 
 program
   .command('status')
+  .description('execute `git status` on all of repositories in the list')
   .action(() => status())
 
 program.parse()
