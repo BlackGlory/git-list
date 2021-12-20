@@ -8,10 +8,10 @@ import { oneline } from 'extra-tags'
 import * as path from 'path'
 
 export async function purge({
-  dry = false
+  dryRun = false
 , concurrency = Infinity
 }: Partial<{
-  dry: boolean
+  dryRun: boolean
   concurrency: number
 }> = {}): Promise<void> {
   const list = await readList(createListFilename())
@@ -40,7 +40,7 @@ export async function purge({
   , ...shouldBeDeletedFilenames
   ]
 
-  if (dry) {
+  if (dryRun) {
     console.log(shouldBeDeletedPathnames.join('\n'))
   } else {
     const total = shouldBeDeletedPathnames.length

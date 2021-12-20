@@ -34,6 +34,7 @@ program
 program
   .command('purge')
   .description('delete all non-hidden directories and files that are not in the list')
-  .action(() => purge())
+  .option('--dry-run', 'dry run')
+  .action(opts => purge({ dryRun: opts.dryRun }))
 
 program.parse()
