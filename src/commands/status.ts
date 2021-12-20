@@ -5,7 +5,9 @@ import { createDirectoryName } from '@utils/create-directory-name'
 import { oneline } from 'extra-tags'
 import { each } from 'extra-promise'
 
-export async function status(concurrency: number = Infinity): Promise<void> {
+export async function status({ concurrency }: {
+  concurrency: number
+}): Promise<void> {
   const list = await readList(createListFilename())
 
   const total = list.length

@@ -6,7 +6,9 @@ import { oneline } from 'extra-tags'
 import { each } from 'extra-promise'
 import { withRetry } from '@utils/with-retry'
 
-export async function pull(concurrency: number = Infinity): Promise<void> {
+export async function pull({ concurrency }: {
+  concurrency: number
+}): Promise<void> {
   const list = await readList(createListFilename())
 
   const total = list.length

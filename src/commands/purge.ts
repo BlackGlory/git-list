@@ -7,13 +7,10 @@ import { each } from 'extra-promise'
 import { oneline } from 'extra-tags'
 import * as path from 'path'
 
-export async function purge({
-  dryRun = false
-, concurrency = Infinity
-}: Partial<{
+export async function purge({ dryRun, concurrency }: {
   dryRun: boolean
   concurrency: number
-}> = {}): Promise<void> {
+}): Promise<void> {
   const list = await readList(createListFilename())
   const repositoryDirnames = list.map(createDirectoryName)
 

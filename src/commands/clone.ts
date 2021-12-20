@@ -7,7 +7,9 @@ import { each } from 'extra-promise'
 import { pathExists } from 'extra-filesystem'
 import { withRetry } from '@utils/with-retry'
 
-export async function clone(concurrency: number = Infinity): Promise<void> {
+export async function clone({ concurrency }: {
+  concurrency: number
+}): Promise<void> {
   const git = simpleGit()
   const list = await readList(createListFilename())
 
