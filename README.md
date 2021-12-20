@@ -24,9 +24,9 @@ Commands:
 
 ## Install
 ```sh
-npm install -g git-list
+npm install -g @blackglory/git-list
 # or
-yarn global add git-list
+yarn global add @blackglory/git-list
 ```
 
 ## git-list.yaml

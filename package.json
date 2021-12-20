@@ -1,5 +1,5 @@
 {
-  "name": "git-list",
+  "name": "@blackglory/git-list",
   "version": "0.1.0",
   "description": "A tool for batch operation of git repositories",
   "keywords": [],
