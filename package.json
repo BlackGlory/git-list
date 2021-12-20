@@ -64,6 +64,7 @@
     "extra-retry": "^0.3.1",
     "extra-tags": "^0.2.4",
     "git-url-parse": "^11.6.0",
+    "iterable-operator": "^0.14.4",
     "js-yaml": "^4.1.0",
     "simple-git": "^2.48.0"
   }
