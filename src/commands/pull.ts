@@ -15,9 +15,8 @@ export async function pull({ concurrency }: {
   let done = 0
   await each(list, async remote => {
     const local = createDirectoryName(remote)
-    const git = simpleGit({ baseDir: local })
-
     try {
+      const git = simpleGit({ baseDir: local })
       await withRetry(() => git.pull())
     } catch (e) {
       console.error(`There was an error in ${local}`)
