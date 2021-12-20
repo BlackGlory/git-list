@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/BlackGlory/git-list/compare/v0.1.0...v0.1.1) (2021-12-20)
+
+
+### Features
+
+* add option --concurrency ([66185ba](https://github.com/BlackGlory/git-list/commit/66185ba7719841985e08699fa7fabfaf29bdc605))
+
 ## 0.1.0 (2021-12-20)
 
 
