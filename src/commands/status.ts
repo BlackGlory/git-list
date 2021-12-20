@@ -15,12 +15,18 @@ export async function status({ concurrency }: {
   await each(list, async remote => {
     const local = createDirectoryName(remote)
     const git = simpleGit({ baseDir: local })
-    const status = await git.status()
 
-    done++
-    console.log(oneline`
-      [${done}/${total}]
-      ${local}: ${status.isClean() ? 'clean' : 'not clean'}
-    `)
+    try {
+      const status = await git.status()
+
+      done++
+      console.log(oneline`
+        [${done}/${total}]
+        ${local}: ${status.isClean() ? 'clean' : 'not clean'}
+      `)
+    } catch (e) {
+      console.error(`There was an error in ${local}`)
+      throw e
+    }
   }, concurrency)
 }

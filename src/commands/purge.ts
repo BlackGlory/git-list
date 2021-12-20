@@ -42,12 +42,18 @@ export async function purge({ dryRun, concurrency }: {
   } else {
     const total = shouldBeDeletedPathnames.length
     let done = 0
-    await each(shouldBeDeletedPathnames, async pathname => {
-      await remove(pathname)
+    await each(shouldBeDeletedPathnames, async local => {
+      try {
+        await remove(local)
+      } catch (e) {
+        console.error(`There was an error in ${local}`)
+        throw e
+      }
+
       done++
       console.log(oneline`
         [${done}/${total}]
-        ${pathname}: deleted
+        ${local}: deleted
       `)
     }, concurrency)
   }

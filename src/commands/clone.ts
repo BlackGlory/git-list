@@ -24,7 +24,12 @@ export async function clone({ concurrency }: {
         ${local}: already exists
       `)
     } else {
-      await withRetry(() => git.clone(remote, local))
+      try {
+        await withRetry(() => git.clone(remote, local))
+      } catch (e) {
+        console.error(`There was an error in ${local}`)
+        throw e
+      }
 
       done++
       console.log(oneline`

@@ -16,7 +16,13 @@ export async function push({ concurrency }: {
   await each(list, async remote => {
     const local = createDirectoryName(remote)
     const git = simpleGit({ baseDir: local })
-    await withRetry(() => git.push(['--follow-tags']))
+
+    try {
+      await withRetry(() => git.push(['--follow-tags']))
+    } catch (e) {
+      console.error(`There was an error in ${local}`)
+      throw e
+    }
 
     done++
     console.log(oneline`
