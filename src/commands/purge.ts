@@ -45,12 +45,12 @@ export async function purge({
   } else {
     const total = shouldBeDeletedPathnames.length
     let done = 0
-    each(shouldBeDeletedPathnames, async x => {
-      await remove(x)
+    await each(shouldBeDeletedPathnames, async pathname => {
+      await remove(pathname)
       done++
       console.log(oneline`
         [${done}/${total}]
-        ${x}: deleted
+        ${pathname}: deleted
       `)
     }, concurrency)
   }
