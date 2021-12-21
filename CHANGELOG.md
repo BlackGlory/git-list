@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/BlackGlory/git-list/compare/v0.1.3...v0.1.4) (2021-12-21)
+
+
+### Bug Fixes
+
+* purge ([85b5dd5](https://github.com/BlackGlory/git-list/commit/85b5dd52e114f13e969493f222dc41b26063bdc0))
+* purge --dry-run ([1466b4b](https://github.com/BlackGlory/git-list/commit/1466b4b7d2be5c6becfbdb7bae482c9f3eb6ba82))
+
 ### [0.1.3](https://github.com/BlackGlory/git-list/compare/v0.1.2...v0.1.3) (2021-12-20)
 
 ### [0.1.2](https://github.com/BlackGlory/git-list/compare/v0.1.1...v0.1.2) (2021-12-20)
