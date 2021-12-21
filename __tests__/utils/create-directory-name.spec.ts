@@ -1,4 +1,5 @@
 import { createDirectoryName } from '@utils/create-directory-name'
+import * as path from 'path'
 
 describe('ssh protocol', () => {
   test('standard url', () => {
@@ -6,7 +7,7 @@ describe('ssh protocol', () => {
 
     const result = createDirectoryName(url)
 
-    expect(result).toBe('git.example.com/user/repo')
+    expect(result).toBe(path.normalize('git.example.com/user/repo'))
   })
 
   test('non-standard url', () => {
@@ -14,7 +15,7 @@ describe('ssh protocol', () => {
 
     const result = createDirectoryName(url)
 
-    expect(result).toBe('git.example.com/user/repo')
+    expect(result).toBe(path.normalize('git.example.com/user/repo'))
   })
 })
 
@@ -23,5 +24,5 @@ test('http protocol', () => {
 
   const result = createDirectoryName(url)
 
-  expect(result).toBe('git.example.com/user/repo')
+  expect(result).toBe(path.normalize('git.example.com/user/repo'))
 })

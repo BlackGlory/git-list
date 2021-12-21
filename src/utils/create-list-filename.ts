@@ -1,3 +1,5 @@
-export function createListFilename() {
-  return 'git-list.yaml'
+import * as path from 'path'
+
+export function createListFilename(): string {
+  return path.normalize('git-list.yaml')
 }
