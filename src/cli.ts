@@ -8,6 +8,10 @@ import { purge } from '@commands/purge'
 import { isUndefined, isString } from '@blackglory/types'
 import { assert } from '@blackglory/errors'
 
+interface IGlobalOptions {
+  concurrency?: string 
+}
+
 program
   .name('git-list')
   .version(require('../package.json').version)
@@ -18,8 +22,8 @@ program
   .command('clone')
   .description('execute `git clone` on all of repositories in the list')
   .action(() => {
-    const options = program.opts<{ concurrency?: string }>()
-    const concurrency = getConcurrency(options)
+    const globalOptions = program.opts<IGlobalOptions>()
+    const concurrency = getConcurrency(globalOptions)
     clone({ concurrency })
   })
 
@@ -27,8 +31,8 @@ program
   .command('pull',)
   .description('execute `git pull` on all of repositories in the list')
   .action(() => {
-    const options = program.opts<{ concurrency?: string }>()
-    const concurrency = getConcurrency(options)
+    const globalOptions = program.opts<IGlobalOptions>()
+    const concurrency = getConcurrency(globalOptions)
     pull({ concurrency })
   })
 
@@ -36,8 +40,8 @@ program
   .command('push')
   .description('execute `git push` on all of repositories in the list')
   .action(() => {
-    const options = program.opts<{ concurrency?: string }>()
-    const concurrency = getConcurrency(options)
+    const globalOptions = program.opts<IGlobalOptions>()
+    const concurrency = getConcurrency(globalOptions)
     push({ concurrency })
   })
 
@@ -45,9 +49,8 @@ program
   .command('status')
   .description('execute `git status` on all of repositories in the list')
   .action(() => {
-    const options = program.opts<{ concurrency?: string }>()
-    const concurrency = getConcurrency(options)
-
+    const globalOptions = program.opts<IGlobalOptions>()
+    const concurrency = getConcurrency(globalOptions)
     status({ concurrency })
   })
 
@@ -55,17 +58,16 @@ program
   .command('purge')
   .description('delete all non-hidden directories and files that are not in the list')
   .option('--dry-run', 'dry run')
-  .action(() => {
-    const options = program.opts<{ concurrency?: string; dryRun: boolean }>()
+  .action((options: { dryRun: boolean }) => {
+    const globalOptions = program.opts<IGlobalOptions>()
+    const concurrency = getConcurrency(globalOptions)
     const dryRun = options.dryRun
-    const concurrency = getConcurrency(options)
-
     purge({ dryRun, concurrency })
   })
 
 program.parse()
 
-function getConcurrency(options: Record<string, string | boolean>): number {
+function getConcurrency(options: { concurrency?: string }): number {
   if (isUndefined(options.concurrency)) return Infinity
 
   assert(
