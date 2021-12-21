@@ -1,10 +1,11 @@
-import { findAllDirnames, findAllFilenames, isSubPathOf, remove } from 'extra-filesystem'
+import { findAllFilenames, isSubPathOf, remove } from 'extra-filesystem'
 import { readList } from '@utils/read-list'
 import { createListFilename } from '@utils/create-list-filename'
 import { createDirectoryName } from '@utils/create-directory-name'
 import { toArrayAsync } from 'iterable-operator'
 import { each } from 'extra-promise'
 import { oneline } from 'extra-tags'
+import * as fs from 'fs/promises'
 import * as path from 'path'
 
 export async function purge({ dryRun, concurrency }: {
@@ -14,35 +15,25 @@ export async function purge({ dryRun, concurrency }: {
   const list = await readList(createListFilename())
   const repositoryDirnames = list.map(createDirectoryName)
 
-  const nonRepoDirnames = await toArrayAsync(findAllDirnames('.', dirname => {
-    return !isHidden(dirname)
-        && !isRepoDirname(dirname)
-  }))
-  const shouldBeDeletedDirnames = nonRepoDirnames.filter(x => {
-    return !nonRepoDirnames.some(dirname => isSubPathOf(x, dirname))
-  })
+  const dirnamesShouldBeDeleted = await toArrayAsync(findAllDirnamesShouldBeDeleted('.'))
+  const nonRepoFilenames = await toArrayAsync(findAllFilenames('.',
+    dirname => isntHidden(dirname) && notInDirnamesShouldBeDeleted(dirname)
+  ))
+  const FilenamesShouldBeDeleted = nonRepoFilenames.filter(
+    x => isntHidden(x) && isntListFile(x)
+  )
 
-  const nonRepoFilenames = await toArrayAsync(findAllFilenames('.', dirname => {
-    return !isHidden(dirname)
-        && !isRepoDirname(dirname)
-        && !shouldBeDeletedDirnames.some(x => isSubPathOf(dirname, x))
-  }))
-  const shouldBeDeletedFilenames = nonRepoFilenames.filter(x => {
-    return !isHidden(x)
-        && !isListFilename(x)
-  })
-
-  const shouldBeDeletedPathnames = [
-    ...shouldBeDeletedDirnames
-  , ...shouldBeDeletedFilenames
+  const pathnamesShouldBeDeleted = [
+    ...dirnamesShouldBeDeleted
+  , ...FilenamesShouldBeDeleted
   ]
 
   if (dryRun) {
-    console.log(shouldBeDeletedPathnames.join('\n'))
+    console.log(pathnamesShouldBeDeleted.join('\n'))
   } else {
-    const total = shouldBeDeletedPathnames.length
+    const total = pathnamesShouldBeDeleted.length
     let done = 0
-    await each(shouldBeDeletedPathnames, async local => {
+    await each(pathnamesShouldBeDeleted, async local => {
       try {
         await remove(local)
       } catch (e) {
@@ -58,14 +49,49 @@ export async function purge({ dryRun, concurrency }: {
     }, concurrency)
   }
 
-  function isRepoDirname(dirname: string) {
+  function isRepo(dirname: string) {
     for (const repoDir of repositoryDirnames) {
-      if (isSubPathOf(repoDir, dirname) || isSubPathOf(dirname, repoDir)) {
+      if (dirname === repoDir) {
         return true
       }
     }
     return false
   }
+
+  function isAncestorOfRepo(dirname: string) {
+    for (const repoDir of repositoryDirnames) {
+      if (isSubPathOf(repoDir, dirname)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  async function* findAllDirnamesShouldBeDeleted(dirname: string): AsyncIterable<string> {
+    const subDirnames = await getSubDirnames(dirname)
+    for (const dirname of subDirnames) {
+      if (isHidden(dirname)) continue
+      if (isRepo(dirname)) continue
+
+      if (isAncestorOfRepo(dirname)) {
+        yield* findAllDirnamesShouldBeDeleted(dirname)
+      } else {
+        yield dirname
+      }
+    }
+  }
+
+  function notInDirnamesShouldBeDeleted(dirname: string): boolean {
+    return !inDirnamesShouldBeDeleted(dirname)
+  }
+
+  function inDirnamesShouldBeDeleted(dirname: string): boolean {
+    return dirnamesShouldBeDeleted.some(x => dirname === x)
+  }
+}
+
+function isntHidden(dirname: string): boolean {
+  return isHidden(dirname)
 }
 
 function isHidden(dirname: string): boolean {
@@ -73,6 +99,17 @@ function isHidden(dirname: string): boolean {
   return basename.startsWith('.')
 }
 
-function isListFilename(filename: string) {
+function isntListFile(filename: string): boolean {
+  return !isListFile(filename)
+}
+
+function isListFile(filename: string): boolean {
   return filename === createListFilename()
+}
+
+async function getSubDirnames(dirname: string): Promise<string[]> {
+  const dirents = await fs.readdir(dirname, { withFileTypes: true })
+  return dirents
+    .filter(x => x.isDirectory())
+    .map(x => path.join(dirname, x.name))
 }
