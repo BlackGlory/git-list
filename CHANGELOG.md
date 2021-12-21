@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/BlackGlory/git-list/compare/v0.1.4...v0.1.5) (2021-12-21)
+
+
+### Bug Fixes
+
+* normalize paths for cross-platform ([7b5dc04](https://github.com/BlackGlory/git-list/commit/7b5dc049c80cea9311316daeed133976d028bf2d))
+
 ### [0.1.4](https://github.com/BlackGlory/git-list/compare/v0.1.3...v0.1.4) (2021-12-21)
 
 
