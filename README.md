@@ -34,5 +34,5 @@ A YAML file with the array of URLs for repositories,
 it is the single source of truth of git-list.
 
 git-list maps the URL to the pathname of the repository.
-For example, it map `git@github.com:BlackGlory/git-list.git` to `github.com/BlackGlory/git-list`,
-so `git-list clone` means `git clone git@github.com:BlackGlory/git-list.git github.com/BlackGlory/git-list`.
+For example, it map `git@example.com:owner/repo.git` to `example.com/owner/repo`,
+so `git-list clone` means `git clone git@example.com:owner/repo.git github.com/owner/repo`.

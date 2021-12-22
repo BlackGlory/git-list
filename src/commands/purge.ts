@@ -12,25 +12,7 @@ export async function purge({ dryRun, concurrency }: {
   dryRun: boolean
   concurrency: number
 }): Promise<void> {
-  const list = await readList(createListFilename())
-  const repositoryDirnames = list.map(createDirectoryName)
-
-  const dirnamesShouldBeDeleted = await toArrayAsync(findAllDirnamesShouldBeDeleted('.'))
-  const nonRepoFilenames = await toArrayAsync(
-    findAllFilenames(
-      '.'
-    , dirname => isntHidden(dirname) && notInDirnamesShouldBeDeleted(dirname)
-    )
-  )
-  const FilenamesShouldBeDeleted = nonRepoFilenames.filter(
-    x => isntHidden(x) && isntListFile(x)
-  )
-
-  const pathnamesShouldBeDeleted = [
-    ...dirnamesShouldBeDeleted
-  , ...FilenamesShouldBeDeleted
-  ]
-
+  const pathnamesShouldBeDeleted = await getPathnamesShouldBeDeleted()
   if (dryRun) {
     console.log(pathnamesShouldBeDeleted.join('\n'))
   } else {
@@ -51,8 +33,37 @@ export async function purge({ dryRun, concurrency }: {
       `)
     }, concurrency)
   }
+}
 
-  async function* findAllDirnamesShouldBeDeleted(dirname: string): AsyncIterable<string> {
+export async function getPathnamesShouldBeDeleted(
+  cwd: string = '.'
+): Promise<string[]> {
+  const list = await readList(createListFilename(cwd))
+  const repositoryDirnames = list.map(x => path.join(cwd, createDirectoryName(x)))
+
+  const dirnamesShouldBeDeleted = await toArrayAsync(
+    findAllDirnamesShouldBeDeleted(cwd)
+  )
+  const nonRepoFilenames = await toArrayAsync(
+    findAllFilenames(
+      cwd
+    , dirname => isntHidden(dirname)
+              && notInDirnamesShouldBeDeleted(dirname)
+              && isntRepo(dirname)
+    )
+  )
+  const filenamesShouldBeDeleted = nonRepoFilenames.filter(
+    x => isntHidden(x) && isntListFile(x)
+  )
+
+  return [
+    ...dirnamesShouldBeDeleted
+  , ...filenamesShouldBeDeleted
+  ]
+
+  async function* findAllDirnamesShouldBeDeleted(
+    dirname: string
+  ): AsyncIterable<string> {
     const subDirnames = await getSubDirnames(dirname)
     for (const dirname of subDirnames) {
       if (isHidden(dirname)) continue
@@ -71,43 +82,45 @@ export async function purge({ dryRun, concurrency }: {
   }
 
   function inDirnamesShouldBeDeleted(dirname: string): boolean {
-    return dirnamesShouldBeDeleted.some(x => dirname === x)
+    return dirnamesShouldBeDeleted.some(
+      x => path.resolve(dirname) === path.resolve(x)
+    )
+  }
+
+  function isntRepo(dirname: string) {
+    return !isRepo(dirname)
   }
 
   function isRepo(dirname: string) {
     for (const repoDir of repositoryDirnames) {
-      if (dirname === repoDir) {
-        return true
-      }
+      if (path.resolve(dirname) === path.resolve(repoDir)) return true
     }
     return false
   }
 
   function isAncestorOfRepo(dirname: string) {
     for (const repoDir of repositoryDirnames) {
-      if (isSubPathOf(repoDir, dirname)) {
-        return true
-      }
+      if (isSubPathOf(repoDir, dirname)) return true
     }
     return false
+  }
+
+  function isntListFile(filename: string): boolean {
+    return !isListFile(filename)
+  }
+
+  function isListFile(filename: string): boolean {
+    return filename === createListFilename(cwd)
   }
 }
 
 function isntHidden(dirname: string): boolean {
-  return isHidden(dirname)
+  return !isHidden(dirname)
 }
 
 function isHidden(dirname: string): boolean {
   const basename = path.basename(dirname)
   return basename.startsWith('.')
-}
-
-function isntListFile(filename: string): boolean {
-  return !isListFile(filename)
-}
-
-function isListFile(filename: string): boolean {
-  return filename === createListFilename()
 }
 
 async function getSubDirnames(dirname: string): Promise<string[]> {

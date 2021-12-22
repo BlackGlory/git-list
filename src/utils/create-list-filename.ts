@@ -1,5 +1,5 @@
 import * as path from 'path'
 
-export function createListFilename(): string {
-  return path.normalize('git-list.yaml')
+export function createListFilename(cwd: string = '.'): string {
+  return path.join(cwd, 'git-list.yaml')
 }
