@@ -73,7 +73,7 @@ function getConcurrency(options: { concurrency?: string }): number {
   , 'The parameter concurrency must be a number'
   )
   const concurrency = Number.parseInt(options.concurrency, 10)
-  assert(concurrency >= 0, 'The parameter concurrency must be a positive number')
+  assert(concurrency > 0, 'The parameter concurrency must be a positive number')
 
   return concurrency
 }
