@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/BlackGlory/git-list/compare/v0.1.7...v0.2.0) (2022-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* Change default value of concurrency from Infinity to 1
+
+### Features
+
+* change default value of concurrency from Infinity to 1 ([56d739c](https://github.com/BlackGlory/git-list/commit/56d739cfe28b2fbf055514dbd1de968db66ee896))
+
 ### [0.1.7](https://github.com/BlackGlory/git-list/compare/v0.1.6...v0.1.7) (2021-12-22)
 
 ### [0.1.6](https://github.com/BlackGlory/git-list/compare/v0.1.5...v0.1.6) (2021-12-21)
