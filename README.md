@@ -10,7 +10,7 @@ A tool for batch operation of git repositories
 
 Options:
   -V, --version      output the version number
-  --concurrency <n>  concurrency
+  --concurrency [n]  concurrency (default: "1")
   -h, --help         display help for command
 
 Commands:

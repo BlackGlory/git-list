@@ -5,7 +5,7 @@ import { pull } from '@commands/pull'
 import { push } from '@commands/push'
 import { status } from '@commands/status'
 import { purge } from '@commands/purge'
-import { isUndefined, isString } from '@blackglory/types'
+import { isString } from '@blackglory/types'
 import { assert } from '@blackglory/errors'
 
 interface IGlobalOptions {
@@ -16,7 +16,7 @@ program
   .name('git-list')
   .version(require('../package.json').version)
   .description(require('../package.json').description)
-  .option('--concurrency <n>', 'concurrency')
+  .option('--concurrency [n]', 'concurrency', '1')
 
 program
   .command('clone')
@@ -68,8 +68,6 @@ program
 program.parse()
 
 function getConcurrency(options: { concurrency?: string }): number {
-  if (isUndefined(options.concurrency)) return Infinity
-
   assert(
     isString(options.concurrency) && isNumberString(options.concurrency)
   , 'The parameter concurrency must be a number'
