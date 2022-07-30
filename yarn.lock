@@ -6216,6 +6216,11 @@ webpack-merge@^5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
+webpack-shebang-plugin@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/webpack-shebang-plugin/-/webpack-shebang-plugin-1.1.7.tgz#def9c9cfa49c2067598e9e4fea567bf313c19cc1"
+  integrity sha512-3jtjFA+7mikbuME61+1Kf6+atBYBNh7r5RCBXmkUUgc0j3f+/MZpIbYbnOp3xhIDe/7i6Ra4O9Q32LiKeUutRg==
+
 webpack-sources@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.3.tgz#2d4daab8451fd4b240cc27055ff6a0c2ccea0cde"
