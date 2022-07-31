@@ -3,6 +3,14 @@ git-list is a tool for batch operation of git repositories,
 it uses the `git-list.yaml` file in the current directory
 as the single source of truth.
 
+## Install
+```sh
+npm install -g @blackglory/git-list
+# or
+yarn global add @blackglory/git-list
+```
+
+## Usage
 ```
 Usage: git-list [options] [command]
 
@@ -20,13 +28,6 @@ Commands:
   status             execute `git status` on all of repositories in the list
   purge [options]    delete all non-hidden directories and files that are not in the list
   help [command]     display help for command
-```
-
-## Install
-```sh
-npm install -g @blackglory/git-list
-# or
-yarn global add @blackglory/git-list
 ```
 
 ## git-list.yaml
