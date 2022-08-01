@@ -12,10 +12,14 @@ interface IGlobalOptions {
   concurrency?: string 
 }
 
+const name = 'git-list'
+const { version, description } = require('../package.json')
+process.title = name
+
 program
-  .name('git-list')
-  .version(require('../package.json').version)
-  .description(require('../package.json').description)
+  .name(name)
+  .version(version)
+  .description(description)
   .option('--concurrency [n]', 'concurrency', '1')
 
 program
