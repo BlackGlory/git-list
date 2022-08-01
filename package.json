@@ -1,6 +1,6 @@
 {
   "name": "@blackglory/git-list",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A tool for batch operation of git repositories",
   "keywords": [],
   "bin": {

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.4](https://github.com/BlackGlory/git-list/compare/v0.2.3...v0.2.4) (2022-08-01)
+
+
+### Features
+
+* set process.title ([2157c1e](https://github.com/BlackGlory/git-list/commit/2157c1e63055fa873f75d8fb9ec8e6483b0fca53))
+
 ### [0.2.3](https://github.com/BlackGlory/git-list/compare/v0.2.2...v0.2.3) (2022-07-30)
 
 
