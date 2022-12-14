@@ -71,9 +71,9 @@
     "extra-promise": "^4.4.0",
     "extra-retry": "^0.3.5",
     "extra-tags": "^0.3.0",
-    "git-url-parse": "^11.6.0",
+    "git-url-parse": "^13.1.0",
     "iterable-operator": "^2.5.0",
     "js-yaml": "^4.1.0",
-    "simple-git": "^2.48.0"
+    "simple-git": "^3.15.1"
   }
 }
