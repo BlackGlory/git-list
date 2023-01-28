@@ -5,7 +5,7 @@ as the single source of truth.
 
 ## Install
 ```sh
-npm install -g @blackglory/git-list
+npm install --global @blackglory/git-list
 # or
 yarn global add @blackglory/git-list
 ```
