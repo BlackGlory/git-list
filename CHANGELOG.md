@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.6](https://github.com/BlackGlory/git-list/compare/v0.2.5...v0.2.6) (2023-01-28)
+
+
+### Bug Fixes
+
+* option types ([7cb54ce](https://github.com/BlackGlory/git-list/commit/7cb54ce8fc071784d7d06f1c0ddd06c805d39af8))
+
 ### [0.2.5](https://github.com/BlackGlory/git-list/compare/v0.2.4...v0.2.5) (2022-12-14)
 
 ### [0.2.4](https://github.com/BlackGlory/git-list/compare/v0.2.3...v0.2.4) (2022-08-01)
