@@ -20,7 +20,7 @@ program
   .name(name)
   .version(version)
   .description(description)
-  .option('--concurrency [n]', 'concurrency', '1')
+  .option('--concurrency <concurrency>', 'concurrency', '1')
 
 program
   .command('clone')

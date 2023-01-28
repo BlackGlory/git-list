@@ -17,17 +17,17 @@ Usage: git-list [options] [command]
 A tool for batch operation of git repositories
 
 Options:
-  -V, --version      output the version number
-  --concurrency [n]  concurrency (default: "1")
-  -h, --help         display help for command
+  -V, --version                output the version number
+  --concurrency <concurrency>  concurrency (default: "1")
+  -h, --help                   display help for command
 
 Commands:
-  clone              execute `git clone` on all of repositories in the list
-  pull               execute `git pull` on all of repositories in the list
-  push               execute `git push` on all of repositories in the list
-  status             execute `git status` on all of repositories in the list
-  purge [options]    delete all non-hidden directories and files that are not in the list
-  help [command]     display help for command
+  clone                        execute `git clone` on all of repositories in the list
+  pull                         execute `git pull` on all of repositories in the list
+  push                         execute `git push` on all of repositories in the list
+  status                       execute `git status` on all of repositories in the list
+  purge [options]              delete all non-hidden directories and files that are not in the list
+  help [command]               display help for command
 ```
 
 ## git-list.yaml
