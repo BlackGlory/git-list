@@ -28,6 +28,7 @@ program
   .action(() => {
     const globalOptions = program.opts<IGlobalOptions>()
     const concurrency = getConcurrency(globalOptions)
+
     clone({ concurrency })
   })
 
@@ -37,6 +38,7 @@ program
   .action(() => {
     const globalOptions = program.opts<IGlobalOptions>()
     const concurrency = getConcurrency(globalOptions)
+
     pull({ concurrency })
   })
 
@@ -46,6 +48,7 @@ program
   .action(() => {
     const globalOptions = program.opts<IGlobalOptions>()
     const concurrency = getConcurrency(globalOptions)
+
     push({ concurrency })
   })
 
@@ -55,31 +58,45 @@ program
   .action(() => {
     const globalOptions = program.opts<IGlobalOptions>()
     const concurrency = getConcurrency(globalOptions)
+
     status({ concurrency })
   })
+
+interface IPurgeOptions {
+  dryRun: boolean
+}
 
 program
   .command('purge')
   .description('delete all non-hidden directories and files that are not in the list')
   .option('--dry-run', 'dry run')
-  .action((options: { dryRun: boolean }) => {
+  .action((options: IPurgeOptions) => {
     const globalOptions = program.opts<IGlobalOptions>()
     const concurrency = getConcurrency(globalOptions)
-    const dryRun = options.dryRun
-    purge({ dryRun, concurrency })
+    const dryRun = getDryRun(options)
+
+    purge({
+      concurrency
+    , dryRun
+    })
   })
 
 program.parse()
 
-function getConcurrency(options: { concurrency?: string }): number {
+function getConcurrency(options: IGlobalOptions): number {
   assert(
     isString(options.concurrency) && isNumberString(options.concurrency)
   , 'The parameter concurrency must be a number'
   )
+
   const concurrency = Number.parseInt(options.concurrency, 10)
   assert(concurrency > 0, 'The parameter concurrency must be a positive number')
 
   return concurrency
+}
+
+function getDryRun(options: IPurgeOptions): boolean {
+  return options.dryRun
 }
 
 function isNumberString(str: string): boolean {
