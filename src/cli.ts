@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 import { program } from 'commander'
-import { clone } from '@commands/clone'
-import { pull } from '@commands/pull'
-import { push } from '@commands/push'
-import { status } from '@commands/status'
-import { purge } from '@commands/purge'
-import { isString } from '@blackglory/types'
+import { clone } from '@commands/clone.js'
+import { pull } from '@commands/pull.js'
+import { push } from '@commands/push.js'
+import { status } from '@commands/status.js'
+import { purge } from '@commands/purge.js'
+import { isString } from '@blackglory/prelude'
 import { assert } from '@blackglory/errors'
+import { version, description } from '@utils/package.js'
 
 interface IGlobalOptions {
   concurrency?: string 
 }
 
 const name = 'git-list'
-const { version, description } = require('../package.json')
 process.title = name
 
 program

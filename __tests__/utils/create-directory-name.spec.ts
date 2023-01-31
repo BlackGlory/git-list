@@ -1,4 +1,4 @@
-import { createDirectoryName } from '@utils/create-directory-name'
+import { createDirectoryName } from '@utils/create-directory-name.js'
 import * as path from 'path'
 
 describe('ssh protocol', () => {

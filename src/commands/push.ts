@@ -1,10 +1,10 @@
-import simpleGit from 'simple-git'
-import { readList } from '@utils/read-list'
-import { createListFilename } from '@utils/create-list-filename'
-import { createDirectoryName } from '@utils/create-directory-name'
+import { simpleGit } from 'simple-git'
+import { readList } from '@utils/read-list.js'
+import { createListFilename } from '@utils/create-list-filename.js'
+import { createDirectoryName } from '@utils/create-directory-name.js'
 import { oneline } from 'extra-tags'
 import { each } from 'extra-promise'
-import { withRetry } from '@utils/with-retry'
+import { withRetry } from '@utils/with-retry.js'
 
 export async function push({ concurrency }: {
   concurrency: number

@@ -1,5 +1,6 @@
 import Ajv from 'ajv/dist/2020.js'
 
+// @ts-ignore
 const ajv = new Ajv()
 const schema = {
   type: 'array'
