@@ -1,7 +1,7 @@
 import { findAllFilenames, isSubPathOf, remove } from 'extra-filesystem'
-import { readList } from '@utils/read-list.js'
-import { createListFilename } from '@utils/create-list-filename.js'
-import { createDirectoryName } from '@utils/create-directory-name.js'
+import { readURLsFromList } from '@utils/read-list.js'
+import { getListFilename } from '@utils/get-list-filename.js'
+import { getRelativeDirname } from '@utils/get-relative-dirname.js'
 import { toArrayAsync } from 'iterable-operator'
 import { each } from 'extra-promise'
 import { oneline } from 'extra-tags'
@@ -38,8 +38,8 @@ export async function purge({ dryRun, concurrency }: {
 export async function getPathnamesShouldBeDeleted(
   cwd: string = '.'
 ): Promise<string[]> {
-  const list = await readList(createListFilename(cwd))
-  const repositoryDirnames = list.map(x => path.join(cwd, createDirectoryName(x)))
+  const urls = await readURLsFromList(getListFilename(cwd))
+  const repoDirnames = urls.map(x => path.join(cwd, getRelativeDirname(x)))
 
   const dirnamesShouldBeDeleted = await toArrayAsync(
     findAllDirnamesShouldBeDeleted(cwd)
@@ -92,14 +92,14 @@ export async function getPathnamesShouldBeDeleted(
   }
 
   function isRepo(dirname: string) {
-    for (const repoDir of repositoryDirnames) {
+    for (const repoDir of repoDirnames) {
       if (path.resolve(dirname) === path.resolve(repoDir)) return true
     }
     return false
   }
 
   function isAncestorOfRepo(dirname: string) {
-    for (const repoDir of repositoryDirnames) {
+    for (const repoDir of repoDirnames) {
       if (isSubPathOf(repoDir, dirname)) return true
     }
     return false
@@ -110,7 +110,7 @@ export async function getPathnamesShouldBeDeleted(
   }
 
   function isListFile(filename: string): boolean {
-    return filename === createListFilename(cwd)
+    return filename === getListFilename(cwd)
   }
 }
 

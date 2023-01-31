@@ -5,7 +5,7 @@ import { getRelativeDirname } from '@utils/get-relative-dirname.js'
 import { oneline } from 'extra-tags'
 import { each } from 'extra-promise'
 
-export async function status({ concurrency }: {
+export async function showCurrentBranch({ concurrency }: {
   concurrency: number
 }): Promise<void> {
   const urls = await readURLsFromList(getListFilename())
@@ -16,17 +16,11 @@ export async function status({ concurrency }: {
     const dirname = getRelativeDirname(url)
     const git = simpleGit({ baseDir: dirname })
 
-    try {
-      const status = await git.status()
-
-      done++
-      console.log(oneline`
-        [${done}/${total}]
-        ${dirname}: ${status.isClean() ? 'clean' : 'not clean'}
-      `)
-    } catch (e) {
-      console.error(`There was an error in ${dirname}`)
-      throw e
-    }
+    const branchSummary = await git.branch()
+    done++
+    console.log(oneline`
+      [${done}/${total}]
+      ${dirname}: ${branchSummary.current}
+    `)
   }, concurrency)
 }

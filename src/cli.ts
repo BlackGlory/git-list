@@ -5,6 +5,7 @@ import { pull } from '@commands/pull.js'
 import { push } from '@commands/push.js'
 import { status } from '@commands/status.js'
 import { purge } from '@commands/purge.js'
+import { showCurrentBranch } from '@commands/show-current-branch.js'
 import { isString } from '@blackglory/prelude'
 import { assert } from '@blackglory/errors'
 import { version, description } from '@utils/package.js'
@@ -60,6 +61,16 @@ program
     const concurrency = getConcurrency(globalOptions)
 
     status({ concurrency })
+  })
+
+program
+  .command('show-current-branch')
+  .description('execute `git branch --show-current` on all of repositories in the list')
+  .action(() => {
+    const globalOptions = program.opts<IGlobalOptions>()
+    const concurrency = getConcurrency(globalOptions)
+
+    showCurrentBranch({ concurrency })
   })
 
 interface IPurgeOptions {

@@ -26,6 +26,7 @@ Commands:
   pull                         execute `git pull` on all of repositories in the list
   push                         execute `git push` on all of repositories in the list
   status                       execute `git status` on all of repositories in the list
+  show-current-branch          execute `git branch --show-current` on all of repositories in the list
   purge [options]              delete all non-hidden directories and files that are not in the list
   help [command]               display help for command
 ```

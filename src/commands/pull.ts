@@ -1,7 +1,7 @@
 import { simpleGit } from 'simple-git'
-import { readList } from '@utils/read-list.js'
-import { createListFilename } from '@utils/create-list-filename.js'
-import { createDirectoryName } from '@utils/create-directory-name.js'
+import { readURLsFromList } from '@utils/read-list.js'
+import { getListFilename } from '@utils/get-list-filename.js'
+import { getRelativeDirname } from '@utils/get-relative-dirname.js'
 import { oneline } from 'extra-tags'
 import { each } from 'extra-promise'
 import { withRetry } from '@utils/with-retry.js'
@@ -9,24 +9,24 @@ import { withRetry } from '@utils/with-retry.js'
 export async function pull({ concurrency }: {
   concurrency: number
 }): Promise<void> {
-  const list = await readList(createListFilename())
+  const urls = await readURLsFromList(getListFilename())
 
-  const total = list.length
+  const total = urls.length
   let done = 0
-  await each(list, async remote => {
-    const local = createDirectoryName(remote)
+  await each(urls, async url => {
+    const dirname = getRelativeDirname(url)
     try {
-      const git = simpleGit({ baseDir: local })
+      const git = simpleGit({ baseDir: dirname })
       await withRetry(() => git.pull())
     } catch (e) {
-      console.error(`There was an error in ${local}`)
+      console.error(`There was an error in ${dirname}`)
       throw e
     }
 
     done++
     console.log(oneline`
       [${done}/${total}]
-      ${local}: pulled
+      ${dirname}: pulled
     `)
   }, concurrency)
 }

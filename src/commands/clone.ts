@@ -1,7 +1,7 @@
 import { simpleGit } from 'simple-git'
-import { readList } from '@utils/read-list.js'
-import { createListFilename } from '@utils/create-list-filename.js'
-import { createDirectoryName } from '@utils/create-directory-name.js'
+import { readURLsFromList } from '@utils/read-list.js'
+import { getListFilename } from '@utils/get-list-filename.js'
+import { getRelativeDirname } from '@utils/get-relative-dirname.js'
 import { oneline } from 'extra-tags'
 import { each } from 'extra-promise'
 import { pathExists } from 'extra-filesystem'
@@ -11,30 +11,31 @@ export async function clone({ concurrency }: {
   concurrency: number
 }): Promise<void> {
   const git = simpleGit()
-  const list = await readList(createListFilename())
+  const urls = await readURLsFromList(getListFilename())
 
-  const total = list.length
+  const total = urls.length
   let done = 0
-  await each(list, async remote => {
-    const local = createDirectoryName(remote)
-    if (await pathExists(local)) {
+  await each(urls, async url => {
+    const dirname = getRelativeDirname(url)
+
+    if (await pathExists(dirname)) {
       done++
       console.log(oneline`
         [${done}/${total}]
-        ${local}: already exists
+        ${dirname}: already exists
       `)
     } else {
       try {
-        await withRetry(() => git.clone(remote, local))
+        await withRetry(() => git.clone(url, dirname))
       } catch (e) {
-        console.error(`There was an error in ${local}`)
+        console.error(`There was an error in ${dirname}`)
         throw e
       }
 
       done++
       console.log(oneline`
         [${done}/${total}]
-        ${local}: cloned
+        ${dirname}: cloned
       `)
     }
   }, concurrency)
