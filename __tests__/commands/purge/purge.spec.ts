@@ -1,5 +1,6 @@
+import { test, expect } from 'vitest'
 import { getPathnamesShouldBeDeleted } from '@commands/purge.js'
-import * as path from 'path'
+import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

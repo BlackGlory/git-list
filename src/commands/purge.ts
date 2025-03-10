@@ -1,4 +1,4 @@
-import { findAllFilenames, isSubPathOf, remove } from 'extra-filesystem'
+import { findAllFilenames, isSubPathOf, pathEquals, remove } from 'extra-filesystem'
 import { readURLsFromList } from '@utils/read-list.js'
 import { getListFilename } from '@utils/get-list-filename.js'
 import { getRelativeDirname } from '@utils/get-relative-dirname.js'
@@ -82,27 +82,19 @@ export async function getPathnamesShouldBeDeleted(
   }
 
   function inDirnamesShouldBeDeleted(dirname: string): boolean {
-    return dirnamesShouldBeDeleted.some(
-      x => path.resolve(dirname) === path.resolve(x)
-    )
+    return dirnamesShouldBeDeleted.some(x => pathEquals(dirname, x))
   }
 
-  function isntRepo(dirname: string) {
+  function isntRepo(dirname: string): boolean {
     return !isRepo(dirname)
   }
 
-  function isRepo(dirname: string) {
-    for (const repoDir of repoDirnames) {
-      if (path.resolve(dirname) === path.resolve(repoDir)) return true
-    }
-    return false
+  function isRepo(dirname: string): boolean {
+    return repoDirnames.some(repoDir => pathEquals(dirname, repoDir))
   }
 
-  function isAncestorOfRepo(dirname: string) {
-    for (const repoDir of repoDirnames) {
-      if (isSubPathOf(repoDir, dirname)) return true
-    }
-    return false
+  function isAncestorOfRepo(dirname: string): boolean {
+    return repoDirnames.some(repoDir => isSubPathOf(repoDir, dirname))
   }
 
   function isntListFile(filename: string): boolean {

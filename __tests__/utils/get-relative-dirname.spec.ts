@@ -1,5 +1,6 @@
+import { describe, test, expect } from 'vitest'
 import { getRelativeDirname } from '@utils/get-relative-dirname.js'
-import * as path from 'path'
+import path from 'path'
 
 describe('getRelativeDirname', () => {
   describe('ssh protocol', () => {
