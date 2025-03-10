@@ -8,7 +8,7 @@
     "git-list": "lib/cli.js"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=22"
   },
   "files": [
     "lib"
@@ -19,7 +19,7 @@
   "scripts": {
     "prepare": "ts-patch install -s",
     "deduplicate": "yarn-deduplicate",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
+    "lint": "eslint --quiet src __tests__",
     "test": "vitest --run",
     "prepublishOnly": "run-s clean prepare build",
     "clean": "rimraf lib",
@@ -34,21 +34,21 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.22.0",
     "@types/git-url-parse": "^9.0.1",
     "@types/js-yaml": "^4.0.5",
-    "@types/node": "14",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
+    "@types/node": "v22.13.10",
     "cross-env": "^7.0.3",
-    "eslint": "^8.33.0",
+    "eslint": "^9.22.0",
     "husky": "^4.3.8",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.0.1",
     "standard-version": "^9.5.0",
-    "ts-patch": "^2.1.0",
-    "typescript": "4.8",
+    "ts-patch": "^3.3.0",
+    "typescript": "5.8.2",
+    "typescript-eslint": "^8.26.0",
     "typescript-transform-paths": "^3.4.6",
     "vite": "^6.2.1",
     "vite-tsconfig-paths": "^5.1.4",
@@ -57,15 +57,15 @@
   },
   "dependencies": {
     "@blackglory/errors": "^3.0.0",
-    "@blackglory/prelude": "^0.3.1",
+    "@blackglory/prelude": "^0.4.0",
     "ajv": "^8.12.0",
-    "commander": "^10.0.0",
+    "commander": "^13.1.0",
     "extra-filesystem": "^0.5.2",
-    "extra-promise": "^6.0.3",
+    "extra-promise": "^7.0.0",
     "extra-retry": "^0.4.2",
-    "extra-tags": "^0.3.1",
-    "git-url-parse": "^13.1.0",
-    "iterable-operator": "^4.0.3",
+    "extra-tags": "^0.5.2",
+    "git-url-parse": "^16.0.1",
+    "iterable-operator": "^5.1.0",
     "js-yaml": "^4.1.0",
     "simple-git": "^3.16.0"
   }
