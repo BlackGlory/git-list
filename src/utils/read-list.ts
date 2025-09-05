@@ -5,6 +5,8 @@ import { validateList } from '@utils/validate-list.js'
 export async function readURLsFromList(filename: string): Promise<string[]> {
   const text = await fs.readFile(filename, 'utf-8')
   const data = YAML.load(text)
+
   validateList(data)
-  return data as string[]
+
+  return data
 }

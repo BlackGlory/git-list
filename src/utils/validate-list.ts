@@ -1,7 +1,6 @@
 import Ajv from 'ajv/dist/2020.js'
 
-// @ts-ignore
-const ajv = new Ajv()
+const ajv = new Ajv.default()
 const schema = {
   type: 'array'
 , items: {
@@ -9,7 +8,7 @@ const schema = {
   }
 }
 
-export function validateList(data: unknown): void {
+export function validateList(data: unknown): asserts data is string[] {
   const valid = ajv.validate(schema, data)
   if (!valid) throw new Error(ajv.errorsText())
 }
